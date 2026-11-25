@@ -1,0 +1,456 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RRR Student Management System</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f4f7fb;
+    color: #1e293b;
+}
+
+.layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 250px;
+    background: #132238;
+    color: white;
+    padding: 25px 18px;
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 35px;
+}
+
+.logo span {
+    color: #38bdf8;
+}
+
+.sidebar p {
+    color: #94a3b8;
+    font-size: 12px;
+    margin: 20px 10px 10px;
+}
+
+.sidebar a {
+    display: block;
+    text-decoration: none;
+    color: #cbd5e1;
+    padding: 13px 12px;
+    border-radius: 8px;
+    margin-bottom: 6px;
+    cursor: pointer;
+}
+
+.sidebar a:hover,
+.sidebar a.active {
+    background: #243a55;
+    color: white;
+}
+
+.main {
+    flex: 1;
+    padding: 30px;
+    min-width: 0;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+}
+
+.header h1 {
+    font-size: 26px;
+}
+
+.header p {
+    color: #64748b;
+    margin-top: 5px;
+}
+
+.profile {
+    background: white;
+    padding: 12px 18px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,.04);
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin-bottom: 25px;
+}
+
+.card {
+    background: white;
+    padding: 22px;
+    border-radius: 14px;
+    box-shadow: 0 3px 12px rgba(0,0,0,.04);
+}
+
+.card .icon {
+    font-size: 25px;
+    margin-bottom: 15px;
+}
+
+.card h3 {
+    font-size: 13px;
+    color: #64748b;
+    font-weight: normal;
+}
+
+.card h2 {
+    margin-top: 8px;
+    font-size: 28px;
+}
+
+.card small {
+    color: #64748b;
+    display: block;
+    margin-top: 8px;
+}
+
+.content {
+    background: white;
+    padding: 22px;
+    border-radius: 14px;
+    box-shadow: 0 3px 12px rgba(0,0,0,.04);
+}
+
+.content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+button {
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 11px 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #1d4ed8;
+}
+
+.search {
+    width: 100%;
+    max-width: 300px;
+    padding: 11px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    outline: none;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 14px 10px;
+    text-align: left;
+    border-bottom: 1px solid #edf2f7;
+    font-size: 14px;
+}
+
+th {
+    color: #64748b;
+    font-size: 12px;
+}
+
+.status {
+    background: #dcfce7;
+    color: #166534;
+    padding: 6px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+}
+
+.section {
+    display: none;
+}
+
+.section.active {
+    display: block;
+}
+
+.empty {
+    text-align: center;
+    color: #64748b;
+    padding: 50px 20px;
+}
+
+@media(max-width:1000px) {
+    .cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media(max-width:700px) {
+    .layout {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+    }
+
+    .main {
+        padding: 18px;
+    }
+
+    .cards {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .header h1 {
+        font-size: 21px;
+    }
+
+    table {
+        min-width: 650px;
+    }
+
+    .table-wrap {
+        overflow-x: auto;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="layout">
+
+    <aside class="sidebar">
+        <div class="logo">RRR <span>SMS</span></div>
+
+        <p>MAIN MENU</p>
+
+        <a class="active" onclick="showSection('dashboard',this)">🏠 Dashboard</a>
+        <a onclick="showSection('students',this)">👨‍🎓 Students</a>
+        <a onclick="showSection('attendance',this)">📋 Attendance</a>
+        <a onclick="showSection('grades',this)">🎓 Grades</a>
+        <a onclick="showSection('courses',this)">📚 Courses</a>
+
+        <p>MANAGEMENT</p>
+
+        <a onclick="showSection('reports',this)">📊 Reports</a>
+        <a onclick="showSection('settings',this)">⚙️ Settings</a>
+    </aside>
+
+    <main class="main">
+
+        <div class="header">
+            <div>
+                <h1>Student Management System</h1>
+                <p>Welcome to RRR Education Management</p>
+            </div>
+
+            <div class="profile">
+                👤 Administrator
+            </div>
+        </div>
+
+        <!-- Dashboard -->
+        <div id="dashboard" class="section active">
+
+            <div class="cards">
+
+                <div class="card">
+                    <div class="icon">👨‍🎓</div>
+                    <h3>Total Students</h3>
+                    <h2 id="studentCount">0</h2>
+                    <small>Registered students</small>
+                </div>
+
+                <div class="card">
+                    <div class="icon">📋</div>
+                    <h3>Attendance</h3>
+                    <h2>--</h2>
+                    <small>Attendance statistics</small>
+                </div>
+
+                <div class="card">
+                    <div class="icon">📚</div>
+                    <h3>Courses</h3>
+                    <h2>0</h2>
+                    <small>Courses created</small>
+                </div>
+
+                <div class="card">
+                    <div class="icon">🎓</div>
+                    <h3>Academic Records</h3>
+                    <h2>0</h2>
+                    <small>Records available</small>
+                </div>
+
+            </div>
+
+            <div class="content">
+                <h2>System Overview</h2>
+                <p style="margin-top:15px;color:#64748b;">
+                    Welcome to the RRR Student Management System.
+                    Use the sidebar to navigate between modules.
+                </p>
+            </div>
+
+        </div>
+
+        <!-- Students -->
+        <div id="students" class="section">
+
+            <div class="content">
+
+                <div class="content-header">
+                    <h2>Student Records</h2>
+                    <button onclick="alert('Student registration module will be added in the next development step.')">
+                        + Add Student
+                    </button>
+                </div>
+
+                <input
+                    class="search"
+                    id="search"
+                    placeholder="Search students..."
+                    oninput="searchStudents()"
+                >
+
+                <div class="table-wrap" style="margin-top:20px;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Department</th>
+                                <th>Semester</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="studentTable">
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="emptyMessage" class="empty">
+                    No students registered yet.
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Attendance -->
+        <div id="attendance" class="section">
+            <div class="content">
+                <h2>Attendance Management</h2>
+                <div class="empty">
+                    Attendance management module coming soon.
+                </div>
+            </div>
+        </div>
+
+        <!-- Grades -->
+        <div id="grades" class="section">
+            <div class="content">
+                <h2>Grades & Results</h2>
+                <div class="empty">
+                    Academic results module coming soon.
+                </div>
+            </div>
+        </div>
+
+        <!-- Courses -->
+        <div id="courses" class="section">
+            <div class="content">
+                <h2>Courses Management</h2>
+                <div class="empty">
+                    Courses module coming soon.
+                </div>
+            </div>
+        </div>
+
+        <!-- Reports -->
+        <div id="reports" class="section">
+            <div class="content">
+                <h2>Reports</h2>
+                <div class="empty">
+                    Reports module coming soon.
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings -->
+        <div id="settings" class="section">
+            <div class="content">
+                <h2>Settings</h2>
+                <div class="empty">
+                    System settings coming soon.
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+</div>
+
+<script>
+
+function showSection(id, element) {
+
+    document.querySelectorAll(".section")
+        .forEach(section => section.classList.remove("active"));
+
+    document.getElementById(id).classList.add("active");
+
+    document.querySelectorAll(".sidebar a")
+        .forEach(link => link.classList.remove("active"));
+
+    element.classList.add("active");
+}
+
+function searchStudents() {
+    const input = document.getElementById("search").value.toLowerCase();
+
+    const rows = document.querySelectorAll("#studentTable tr");
+
+    rows.forEach(row => {
+        row.style.display =
+            row.innerText.toLowerCase().includes(input)
+            ? ""
+            : "none";
+    });
+}
+
+</script>
+
+</body>
+</html>
